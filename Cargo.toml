@@ -1,0 +1,22 @@
+[package]
+name = "triangles"
+version = "0.1.0"
+author = ["ishita mehta"]
+edition = "2021"
+resolver = "2"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+wgpu = "0.15.1"
+cgmath = "0.18"
+env_logger = "0.10.0"
+futures = "0.3"
+gfx-hal = "0.9"
+image = "0.24"
+log = "0.4"
+pollster = "0.3.0"
+winit = "0.28.3"
+bytemuck = { version = "1.4", features = ["derive"] }
+anyhow = "1.0"
+rand ="0.8"
