@@ -17,7 +17,7 @@ fn vs_main(@builtin(vertex_index) in_vertex_index: u32) -> VOutput {
     };
 
     var out: VOutput;
-    out.position = vec4<f32>(pos[in_vertex_index], 0.0, 1.0);
+    out.position = vec4<f32>(pos[in_vertex_index], 0.0, 1.0); // use 4d vectors to 3d graphics objects - so have to convert them into vec4
     out.v_color = vec4<f32>(color[in_vertex_index], 1.0);
     return out;
 }
