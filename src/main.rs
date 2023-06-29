@@ -1,6 +1,5 @@
 use gfx_hal::Instance;
 use std::borrow::Cow;
-use wgpu::InstanceDescriptor;
 use winit::{
     event::{Event, WindowEvent},
     event_loop::{ControlFlow, EventLoop},
@@ -8,6 +7,7 @@ use winit::{
 };
 
 pub async fn run(event_loop: EventLoop<()>, window: Window) {
+    let size = window.inner_size();
     let instance = wgpu::Instance::new(wgpu::Backends::METAL); // Apple M1 Chip
     let surface = unsafe { instance.create_surface(&window).unwrap() };
     let adapter = instance
@@ -30,6 +30,16 @@ pub async fn run(event_loop: EventLoop<()>, window: Window) {
         )
         .await
         .expect("Failed to create device");
+
+    let format = surface.get_preferred_format(&adapter).unwrap();
+    let mut config = wgpu::SurfaceConfiguration {
+        usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
+        format: format,
+        width: size.width,
+        height: size.height,
+        present_mode: wgpu::PresentMode::Mailbox,
+    };
+    surface.configure(&device, &config);
 }
 
 fn main() {
