@@ -1,5 +1,6 @@
 use gfx_hal::Instance;
 use std::borrow::Cow;
+use wgpu::TextureFormat;
 use winit::{
     event::{Event, WindowEvent},
     event_loop::{ControlFlow, EventLoop},
@@ -31,13 +32,15 @@ pub async fn run(event_loop: EventLoop<()>, window: Window) {
         .await
         .expect("Failed to create device");
 
-    let format = surface.get_preferred_format(&adapter).unwrap();
+    // let format = surface.texture;
     let mut config = wgpu::SurfaceConfiguration {
-        usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
-        format: format,
-        width: size.width,
-        height: size.height,
-        present_mode: wgpu::PresentMode::Mailbox,
+        usage: wgpu::TextureUsages::RENDER_ATTACHMENT, // how the surface texture will be used
+        format: TextureFormat::Bgra8Unorm,             // not sure what to use here yet
+        width: size.width,                             // size defined as window size earlier
+        height: size.height,                           // not set to 0, otherwise will crash
+        present_mode: wgpu::PresentMode::Mailbox, // presentation frames in a single-frame queue, same display until the next one - which replaces old frame
+        alpha_mode: wgpu::CompositeAlphaMode::Auto, // chooses either Opaque or Inherit automatically
+        view_formats: (),                           //??
     };
     surface.configure(&device, &config);
 }
